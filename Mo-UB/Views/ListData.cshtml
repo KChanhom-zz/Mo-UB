@@ -1,0 +1,48 @@
+﻿@using Mo_UB.Controllers
+@{
+    Layout = null;
+}
+
+
+Test List Data
+<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        console.log("ready!");
+        var displayResources = $("#display-resources");
+            $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetDataJson", "ListData")',
+                datatype: 'json',               
+                success: function (result) {
+                    console.log(result);
+                    var json_obj = $.parseJSON(result);
+                    var output =
+                        "<table><thead><tr><th>FactoryNo</th><th>FactoryName</th><th>FactoryType</th></thead><tbody>";
+                    for (var i in json_obj) {
+                        output +=
+                            "<tr><td>" +
+                        json_obj[i].FactoryNo +
+                            "</td><td>" +
+                        json_obj[i].FactoryName +
+                            "</td><td>" +
+                        json_obj[i].FactoryType +
+                            "</td></tr>";
+                    }
+                    output += "</tbody></table>";
+
+                    displayResources.html(output);
+                    $("table").addClass("table");
+                }
+                //},
+                //error: function (data) { }
+            });
+    });
+</script>
+
+
+<a href="@Url.Action("Click", "ListData")">CLick</a>
+
+<div id="display-resources"></div>
